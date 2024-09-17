@@ -7,20 +7,23 @@ public class PlayerMove : MonoBehaviour
     private float moveH;
     private float moveV;
     private Rigidbody rb;
-    private AudioSource audio;
+    private AudioSource audioP;
     private bool estaVivo = true;
     private int pontos = 0;
+    private Diretor diretor;
     [SerializeField] private float velocidade;
     [SerializeField] private float forcaPulo;
     [Header("Sons do Personagem")]
     [SerializeField] private AudioClip pulo;
     [SerializeField] private AudioClip queda;
     [SerializeField] private AudioClip moeda;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        audio = GetComponent<AudioSource>();
+        audioP = GetComponent<AudioSource>();
+        diretor = GameObject.FindObjectOfType<Diretor>();
     }
 
     // Update is called once per frame
@@ -43,7 +46,7 @@ public class PlayerMove : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 rb.AddForce(transform.up * forcaPulo, ForceMode.Impulse);
-                audio.PlayOneShot(pulo);
+                audioP.PlayOneShot(pulo);
                 //isJumping = true;
             }
         }
@@ -58,7 +61,7 @@ public class PlayerMove : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Piso"))
         {
-            audio.PlayOneShot(queda);
+            audioP.PlayOneShot(queda);
         }
 
         if(other.gameObject.CompareTag("Lava"))
@@ -66,15 +69,34 @@ public class PlayerMove : MonoBehaviour
             gameObject.GetComponent<SphereCollider>().enabled = false;
             estaVivo = false;
         }
+
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("MoveP"))
+        {
+            gameObject.transform.parent = collision.transform;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        gameObject.transform.parent = null;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Moeda"))
         {
-            audio.PlayOneShot(moeda);
+            audioP.PlayOneShot(moeda);
             pontos++;
             Destroy(other.gameObject);
+        }
+
+        if(other.gameObject.CompareTag("Saida") && diretor.PodePassarFase())
+        {
+            diretor.ProximaFase();
         }
     }
 
