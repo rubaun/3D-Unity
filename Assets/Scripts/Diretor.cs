@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Diretor : MonoBehaviour
-{
+{ 
     //Player
     [SerializeField] private PlayerMove player;
     //Tela da Morte
@@ -34,23 +35,18 @@ public class Diretor : MonoBehaviour
     [SerializeField] private AudioClip somMissao;
     [SerializeField] private GameObject luzSaida;
 
+    //Controle de Fases
+    [Header("Fases e Telas")]
+    [SerializeField] private SceneAsset[] scenes;
+    [SerializeField] private int cenaAtual;
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
-        pontos = GameObject.Find("Pontos").GetComponent<TextMeshProUGUI>();
-        pontosRestantes = GameObject.Find("PontosRestantes").GetComponent<TextMeshProUGUI>();
-        moedas = GameObject.FindGameObjectsWithTag("Moeda");
-        pontosRestantes.text = moedas.Length.ToString();
-        //----
-        status = GameObject.Find("Status").GetComponent<Image>();
-        audioPlayer = GetComponent<AudioSource>();
-        telaMorte.SetActive(false);
-        status.sprite = zero;
-        //----
-        avisoMissao = GameObject.Find("Aviso").GetComponent<TextMeshProUGUI>();
-        luzSaida.SetActive(false);
+        DontDestroyOnLoad(gameObject);
+        ProcurarReferencias();
     }
 
     // Update is called once per frame
@@ -106,7 +102,8 @@ public class Diretor : MonoBehaviour
 
     public void ProximaFase()
     {
-    
+        SceneManager.LoadScene(scenes[cenaAtual + 1].name);
+        ProcurarReferencias();
     }
 
     public void Replay()
@@ -118,4 +115,21 @@ public class Diretor : MonoBehaviour
     {
         Application.Quit();
     }
+
+    private void ProcurarReferencias()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
+        status = GameObject.FindWithTag("Status").GetComponent<Image>();
+        telaMorte = GameObject.FindWithTag("TelaDaMorte");
+        pontos = GameObject.FindWithTag("Pontos").GetComponent<TextMeshProUGUI>();
+        pontosRestantes = GameObject.FindWithTag("PontosRestantes").GetComponent<TextMeshProUGUI>();
+        moedas = GameObject.FindGameObjectsWithTag("Moeda");
+        avisoMissao = GameObject.FindWithTag("Aviso").GetComponent<TextMeshProUGUI>();
+        luzSaida = GameObject.FindWithTag("LuzSaida");
+        audioPlayer = GetComponent<AudioSource>();
+        telaMorte.SetActive(false);
+        status.sprite = zero;
+        pontosRestantes.text = moedas.Length.ToString();
+    }
 }
+

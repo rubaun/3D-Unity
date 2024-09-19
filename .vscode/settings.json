@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "3DURP.sln"
+    "dotnet.defaultSolution": "3D-Unity.sln"
 }

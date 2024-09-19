@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,9 @@ public class PlayerMove : MonoBehaviour
     private bool estaVivo = true;
     private int pontos = 0;
     private Diretor diretor;
+    private bool isJumping;
+    private bool doubleJump;
+    private int countJump = 0;
     [SerializeField] private float velocidade;
     [SerializeField] private float forcaPulo;
     [Header("Sons do Personagem")]
@@ -39,15 +43,26 @@ public class PlayerMove : MonoBehaviour
                                         0, 
                                         moveV * velocidade * Time.deltaTime
                                         );
-            
+
             //rb.AddForce(new Vector3(moveH, 0, moveV) * velocidade);
 
             //Pulo
-            if(Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
             {
-                rb.AddForce(transform.up * forcaPulo, ForceMode.Impulse);
-                audioP.PlayOneShot(pulo);
-                //isJumping = true;
+                Jump();
+                countJump++;
+                isJumping = true;
+            }
+            else if(Input.GetKeyDown(KeyCode.Space) && isJumping)
+            {
+                countJump++;
+            }
+
+            //Pulo Duplo
+            if (isJumping && countJump == 2 && Input.GetKeyDown(KeyCode.Space))
+            {
+                Jump();
+                doubleJump = true;    
             }
         }
 
@@ -62,6 +77,9 @@ public class PlayerMove : MonoBehaviour
         if(other.gameObject.CompareTag("Piso"))
         {
             audioP.PlayOneShot(queda);
+            isJumping = false;
+            doubleJump = false;
+            countJump = 0;
         }
 
         if(other.gameObject.CompareTag("Lava"))
@@ -108,5 +126,11 @@ public class PlayerMove : MonoBehaviour
     public int ContagemPontos()
     {
         return pontos;
+    }
+
+    private void Jump()
+    {
+        rb.AddForce(transform.up * forcaPulo, ForceMode.Impulse);
+        audioP.PlayOneShot(pulo);
     }
 }

@@ -1043,6 +1043,10 @@ MonoBehaviour:
   avisoMissao: {fileID: 0}
   somMissao: {fileID: 8300000, guid: 0632f48a1c1beea479ab17ab9ca6fba0, type: 3}
   luzSaida: {fileID: 1910040703}
+  scenes:
+  - {fileID: 102900000, guid: 0e5be988a0951f24e865fb298f07ad92, type: 3}
+  - {fileID: 102900000, guid: 9688425a8b5dbf14d97f1ddd9b3b0494, type: 3}
+  cenaAtual: 0
 --- !u!4 &200689147
 Transform:
   m_ObjectHideFlags: 0
@@ -1255,7 +1259,7 @@ GameObject:
   - component: {fileID: 236380695}
   m_Layer: 5
   m_Name: Pontos
-  m_TagString: Untagged
+  m_TagString: Pontos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3589,7 +3593,7 @@ GameObject:
   - component: {fileID: 560329181}
   m_Layer: 5
   m_Name: Aviso
-  m_TagString: Untagged
+  m_TagString: Aviso
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4698,7 +4702,7 @@ GameObject:
   - component: {fileID: 700836127}
   m_Layer: 5
   m_Name: PontosRestantes
-  m_TagString: Untagged
+  m_TagString: PontosRestantes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7232,11 +7236,11 @@ GameObject:
   - component: {fileID: 1087161792}
   m_Layer: 0
   m_Name: TelaDaMorte
-  m_TagString: Untagged
+  m_TagString: TelaDaMorte
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1087161792
 Transform:
   m_ObjectHideFlags: 0
@@ -8385,6 +8389,7 @@ GameObject:
   - component: {fileID: 1254651158}
   - component: {fileID: 1254651157}
   - component: {fileID: 1254651156}
+  - component: {fileID: 1254651161}
   m_Layer: 0
   m_Name: Lava1
   m_TagString: Lava
@@ -8423,7 +8428,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -8493,6 +8498,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 770476356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1254651161
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254651155}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9.999993, y: 0.17809081, z: 10}
+  m_Center: {x: 0, y: -1.0065767, z: 0.0000019052911}
 --- !u!1 &1288972749
 GameObject:
   m_ObjectHideFlags: 0
@@ -11713,7 +11739,7 @@ GameObject:
   - component: {fileID: 1764345258}
   m_Layer: 5
   m_Name: Status
-  m_TagString: Untagged
+  m_TagString: Status
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12569,12 +12595,12 @@ GameObject:
   - component: {fileID: 1910040705}
   - component: {fileID: 1910040704}
   m_Layer: 0
-  m_Name: Saida
-  m_TagString: Untagged
+  m_Name: LuzSaida
+  m_TagString: LuzSaida
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1910040704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12971,6 +12997,7 @@ GameObject:
   - component: {fileID: 2000967689}
   - component: {fileID: 2000967688}
   - component: {fileID: 2000967687}
+  - component: {fileID: 2000967692}
   m_Layer: 0
   m_Name: Lava2
   m_TagString: Lava
@@ -13009,7 +13036,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -13079,6 +13106,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 770476356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2000967692
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000967686}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10.000001, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: -1.006577, z: 0.000001905291}
 --- !u!1 &2014975477
 GameObject:
   m_ObjectHideFlags: 0
@@ -13800,6 +13848,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 200689147}
   - {fileID: 1325168371}
   - {fileID: 538033912}
   - {fileID: 613829875}
@@ -13810,7 +13859,6 @@ SceneRoots:
   - {fileID: 366068706}
   - {fileID: 1745327797}
   - {fileID: 2082141757}
-  - {fileID: 200689147}
   - {fileID: 477902403}
   - {fileID: 1609073952}
   - {fileID: 1534075428}

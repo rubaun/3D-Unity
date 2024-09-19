@@ -10,6 +10,12 @@ TagManager:
   - Saida
   - Plataforma
   - MoveP
+  - Aviso
+  - TelaDaMorte
+  - LuzSaida
+  - Status
+  - Pontos
+  - PontosRestantes
   layers:
   - Default
   - TransparentFX
