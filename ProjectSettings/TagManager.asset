@@ -16,6 +16,8 @@ TagManager:
   - Status
   - Pontos
   - PontosRestantes
+  - CuboBrilhante
+  - Agua
   layers:
   - Default
   - TransparentFX
