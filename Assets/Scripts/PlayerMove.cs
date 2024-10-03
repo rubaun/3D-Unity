@@ -116,6 +116,11 @@ public class PlayerMove : MonoBehaviour
         {
             diretor.ProximaFase();
         }
+
+        if(other.gameObject.CompareTag("CheckPoint"))
+        {
+
+        }
     }
 
     public bool VerificaSePlayerEstaVivo()

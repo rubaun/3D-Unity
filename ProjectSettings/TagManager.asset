@@ -18,6 +18,7 @@ TagManager:
   - PontosRestantes
   - CuboBrilhante
   - Agua
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
