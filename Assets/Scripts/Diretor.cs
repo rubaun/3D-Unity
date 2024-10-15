@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 public class Diretor : MonoBehaviour
 { 
@@ -20,7 +22,7 @@ public class Diretor : MonoBehaviour
     //Texto Pontos
     [SerializeField] private TextMeshProUGUI pontos;
     [SerializeField] private TextMeshProUGUI pontosRestantes;
-    private GameObject[] moedas;
+    [SerializeField] private GameObject[] moedas;
 
     [Header("Imagens da Pontuação")]
     [SerializeField] private Image status;
@@ -52,6 +54,11 @@ public class Diretor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(telaMorte == null)
+        {
+            ProcurarReferencias();
+        }
+
         int contagem = player.ContagemPontos();
 
         if (!player.VerificaSePlayerEstaVivo())
@@ -102,18 +109,16 @@ public class Diretor : MonoBehaviour
 
     public void ProximaFase()
     {
-        SceneManager.LoadScene(scenes[cenaAtual + 1].name);
-        ProcurarReferencias();
-    }
-
-    public void Replay()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void Exit()
-    {
-        Application.Quit();
+        if(cenaAtual < scenes.Length)
+        {
+            SceneManager.LoadScene(scenes[cenaAtual + 1].name);
+            cenaAtual++;
+        }
+        else
+        {
+            SceneManager.LoadScene("Final");
+        }
+        
     }
 
     private void ProcurarReferencias()
@@ -132,4 +137,53 @@ public class Diretor : MonoBehaviour
         pontosRestantes.text = moedas.Length.ToString();
     }
 }
+
+[System.Serializable]
+public class SaveData
+{
+    float playerX;
+    float playerY;
+    float playerZ;
+    int pontos;
+    int pontosRestantes;
+    SceneAsset[] scenes;
+    int cenaAtual;
+
+    public void Save()
+    {
+        SaveData saveData = new SaveData();
+        saveData.playerX = playerX;
+        saveData.playerY = playerY;
+        saveData.playerZ = playerZ;
+        saveData.pontos = pontos;
+        saveData.pontosRestantes = pontosRestantes;
+        saveData.scenes = scenes;
+        saveData.cenaAtual = cenaAtual;
+
+        string json = JsonUtility.ToJson(saveData);
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+    
+    public void Load()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+
+        if(File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData saveData = JsonUtility.FromJson<SaveData>(json);
+
+            playerX = saveData.playerX;
+            playerY = saveData.playerY;
+            playerZ = saveData.playerZ;
+            pontos = saveData.pontos;
+            pontosRestantes = saveData.pontosRestantes;
+            scenes = saveData.scenes;
+            cenaAtual = saveData.cenaAtual;
+        }
+    }
+}
+
+
 

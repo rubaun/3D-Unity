@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BolinhaMove : MonoBehaviour
 {
@@ -18,13 +22,21 @@ public class BolinhaMove : MonoBehaviour
     [SerializeField] private AudioClip pulo;
     [SerializeField] private AudioClip pegaCubo;
     private AudioSource audioPlayer;
+    private TextMeshProUGUI textoPontos;
+    private TextMeshProUGUI textoTotal;
+
+    [Header("Emojis")]
+    [SerializeField] private List<Sprite> emojis = new List<Sprite>();
 
     // Start is called before the first frame update
     void Start()
-    {
+    { 
         estaVivo = true;
         rb = GetComponent<Rigidbody>();
         audioPlayer = GetComponent<AudioSource>();
+        textoPontos = GameObject.FindGameObjectWithTag("Pontos").GetComponent<TextMeshProUGUI>();
+        textoTotal = GameObject.Find("TotalCubos").GetComponent<TextMeshProUGUI>();
+        textoTotal.text = GameObject.FindGameObjectsWithTag("CuboBrilhante").Length.ToString();
     }
 
     // Update is called once per frame
@@ -48,6 +60,8 @@ public class BolinhaMove : MonoBehaviour
                 rb.AddForce(transform.up * forcaPulo, ForceMode.Impulse);
                 audioPlayer.PlayOneShot(pulo);
             }
+
+            VerificaObjetivos();
         }
     }
 
@@ -58,6 +72,7 @@ public class BolinhaMove : MonoBehaviour
             Destroy(other.gameObject);
             audioPlayer.PlayOneShot(pegaCubo);
             pontos++;
+            textoPontos.text = pontos.ToString();
         }
     }
 
@@ -68,4 +83,38 @@ public class BolinhaMove : MonoBehaviour
             estaVivo = false;
         }
     }
+
+    private void VerificaObjetivos()
+    {
+        int totalCubos = Int32.Parse(textoTotal.text);
+        TextMeshProUGUI objetivo = GameObject.Find("Objetivo").GetComponent<TextMeshProUGUI>();
+        Image emoji = GameObject.Find("Emoji").GetComponent<Image>();
+
+        Debug.LogFormat($"Pontos: {pontos}, Total Cubos: {totalCubos}");
+        
+        if(pontos < totalCubos)
+        {
+            emoji.sprite = emojis[0];
+            objetivo.text = "Pegue todos os Cubos!";
+        }
+        
+        if(pontos >= totalCubos / 2)
+        {
+            emoji.sprite = emojis[1];
+            objetivo.text = "Continue assim, você pegou a metade!";
+        }
+        
+        if(pontos >= totalCubos - 5)
+        {
+            emoji.sprite = emojis[2];
+            objetivo.text = "Quase no fim!";
+        }
+        
+        if(pontos == totalCubos)
+        {
+            emoji.sprite = emojis[3];
+            objetivo.text = "Todos os Cubos coletados, passagem liberada!";
+        }
+    }
+
 }

@@ -44,8 +44,7 @@ public class PlayerMove : MonoBehaviour
                                         moveV * velocidade * Time.deltaTime
                                         );
 
-            //rb.AddForce(new Vector3(moveH, 0, moveV) * velocidade);
-
+            
             //Pulo
             if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
             {
@@ -74,7 +73,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter(Collision other) 
     {
-        if(other.gameObject.CompareTag("Piso"))
+        if(other.gameObject.CompareTag("Piso") || other.gameObject.CompareTag("MoveP"))
         {
             audioP.PlayOneShot(queda);
             isJumping = false;
@@ -107,7 +106,7 @@ public class PlayerMove : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Moeda"))
         {
-            audioP.PlayOneShot(moeda);
+            audioP.PlayOneShot(moeda, 0.5f);
             pontos++;
             Destroy(other.gameObject);
         }
@@ -139,3 +138,5 @@ public class PlayerMove : MonoBehaviour
         audioP.PlayOneShot(pulo);
     }
 }
+
+

@@ -30,4 +30,15 @@ public class Menu : MonoBehaviour
         playSource.PlayOneShot(play);
         SceneManager.LoadScene("Menu");
     }
+    public void Replay()
+    {
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void Exit()
+    {
+        
+        Application.Quit();
+    }
 }
