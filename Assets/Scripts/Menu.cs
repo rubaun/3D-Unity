@@ -27,7 +27,11 @@ public class Menu : MonoBehaviour
 
     public void VoltarMenu()
     {
-        playSource.PlayOneShot(play);
+        if(playSource != null)
+        {
+            playSource.PlayOneShot(play);
+        }
+        
         SceneManager.LoadScene("Menu");
     }
     public void Replay()

@@ -25,8 +25,9 @@ public class BolinhaMove : MonoBehaviour
     private TextMeshProUGUI textoPontos;
     private TextMeshProUGUI textoTotal;
 
-    [Header("Emojis")]
+    [Header("HUD")]
     [SerializeField] private List<Sprite> emojis = new List<Sprite>();
+    [SerializeField] private GameObject telaGameOver;
 
     // Start is called before the first frame update
     void Start()
@@ -37,12 +38,14 @@ public class BolinhaMove : MonoBehaviour
         textoPontos = GameObject.FindGameObjectWithTag("Pontos").GetComponent<TextMeshProUGUI>();
         textoTotal = GameObject.Find("TotalCubos").GetComponent<TextMeshProUGUI>();
         textoTotal.text = GameObject.FindGameObjectsWithTag("CuboBrilhante").Length.ToString();
+        telaGameOver = GameObject.Find("GameOver");
+        telaGameOver.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (estaVivo)
+        if(estaVivo)
         {
             //Movimento
             moveH = Input.GetAxis("Horizontal");
@@ -62,6 +65,10 @@ public class BolinhaMove : MonoBehaviour
             }
 
             VerificaObjetivos();
+        }
+        else
+        {
+            telaGameOver.SetActive(true);
         }
     }
 
@@ -84,6 +91,21 @@ public class BolinhaMove : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("MoveP"))
+        {
+            gameObject.transform.parent = collision.transform;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("MoveP"))
+        {
+            gameObject.transform.parent = null;
+        }
+    }
     private void VerificaObjetivos()
     {
         int totalCubos = Int32.Parse(textoTotal.text);
@@ -101,7 +123,7 @@ public class BolinhaMove : MonoBehaviour
         if(pontos >= totalCubos / 2)
         {
             emoji.sprite = emojis[1];
-            objetivo.text = "Continue assim, você pegou a metade!";
+            objetivo.text = "Continue assim!";
         }
         
         if(pontos >= totalCubos - 5)

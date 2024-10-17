@@ -139,7 +139,7 @@ public class Diretor : MonoBehaviour
 }
 
 [System.Serializable]
-public class SaveData
+public class SaveData : MonoBehaviour
 {
     float playerX;
     float playerY;

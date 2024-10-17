@@ -7,21 +7,32 @@ public class PlataformMove : MonoBehaviour
     [SerializeField] private GameObject ponto1;
     [SerializeField] private GameObject ponto2;
     [SerializeField] private float speed = 1.0f;
-    [SerializeField] private int dirP = 1;
+    [SerializeField] private bool dirX;
+    [SerializeField] private bool dirY;
+    [SerializeField] private bool dirZ;
+    private int dirP = 1;
     
     
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(0, 0, Time.deltaTime * speed * dirP);       
+        if (dirX)
+        {
+            transform.position += new Vector3(Time.deltaTime * speed * dirP, 0, 0);
+        }
+        else if (dirY)
+        {
+            transform.position += new Vector3(0, Time.deltaTime * speed * dirP, 0);
+        }
+        else if (dirZ)
+        {
+            transform.position += new Vector3(0, 0, Time.deltaTime * speed * dirP); 
+        }
+        else
+        {
+            transform.position += new Vector3(0, 0, 0);
+        }
+              
     }
 
     private void OnTriggerEnter(Collider other)
