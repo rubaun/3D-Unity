@@ -1,41 +1,41 @@
 using UnityEngine;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 public static class SaveSystem
 {
-    public void Save()
+    
+    public static void Save(PlayerMove player)
     {
-        SaveData saveData = new SaveData();
-        saveData.playerX = playerX;
-        saveData.playerY = playerY;
-        saveData.playerZ = playerZ;
-        saveData.pontos = pontos;
-        saveData.pontosRestantes = pontosRestantes;
-        saveData.scenes = scenes;
-        saveData.cenaAtual = cenaAtual;
+        BinaryFormatter formater = new BinaryFormatter();//Cria um formatador binário
+        string path = Application.persistentDataPath + "/player.adventure"; //Define a localização e o nome do arquivo player.adventure
+        FileStream stream = new FileStream(path, FileMode.Create); //Cria o arquivo no local especificado
 
-        string json = JsonUtility.ToJson(saveData);
+        GameData data = new GameData(player); //Cria um objeto SaveData com os dados do player
 
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        formater.Serialize(stream, data); //Serializa os dados do player no arquivo
+        stream.Close(); //Fecha o arquivo
     }
 
-    public void Load()
+    public static GameData Load()
     {
-        string path = Application.persistentDataPath + "/savefile.json";
+        string path = Application.persistentDataPath + "/player.adventure"; //Define a localização e o nome do arquivo player.adventure
 
-        if (File.Exists(path))
+        if (File.Exists(path)) //Se o arquivo existir
         {
-            string json = File.ReadAllText(path);
-            SaveData saveData = JsonUtility.FromJson<SaveData>(json);
+            BinaryFormatter formater = new BinaryFormatter(); //Cria um formatador binário
+            FileStream stream = new FileStream(path, FileMode.Open); //Abre o arquivo
 
-            playerX = saveData.playerX;
-            playerY = saveData.playerY;
-            playerZ = saveData.playerZ;
-            pontos = saveData.pontos;
-            pontosRestantes = saveData.pontosRestantes;
-            scenes = saveData.scenes;
-            cenaAtual = saveData.cenaAtual;
+            GameData data = formater.Deserialize(stream) as GameData; //Deserializa os dados do arquivo
+            stream.Close(); //Fecha o arquivo
+
+            return data; //Retorna um objeto PlayerMove com os dados do arquivo
+        }
+        else
+        {
+            Debug.LogError("Save file not found in " + path); //Se o arquivo não existir, exibe uma mensagem de erro
+            return null; //Retorna nulo
         }
     }
 }

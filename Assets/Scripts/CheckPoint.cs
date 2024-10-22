@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
-    [SerializeField] private SaveData diretor;
+    [SerializeField] private Diretor diretor;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        diretor = GameObject.Find("Diretor").GetComponent<SaveData>();
+        diretor = GameObject.FindObjectOfType<Diretor>();
     }
 
     // Update is called once per frame
@@ -21,6 +21,13 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        diretor.Save();
+        diretor.SavePlayer(FindObjectOfType<PlayerMove>());
+        StartCoroutine("Contador");
+    }
+
+    IEnumerator Contador()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Destroy(gameObject);
     }
 }

@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+
 using UnityEngine;
 
 [System.Serializable]
@@ -11,6 +9,6 @@ public class SaveData : MonoBehaviour
     float playerZ;
     int pontos;
     int pontosRestantes;
-    SceneAsset[] scenes;
+    
     int cenaAtual;
 }

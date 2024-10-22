@@ -15,6 +15,7 @@ public class PlayerMove : MonoBehaviour
     private bool isJumping;
     private bool doubleJump;
     private int countJump = 0;
+    private Vector3 posicaoPlayer;
     [SerializeField] private float velocidade;
     [SerializeField] private float forcaPulo;
     [Header("Sons do Personagem")]
@@ -69,6 +70,8 @@ public class PlayerMove : MonoBehaviour
         {
             rb.Sleep();
         }
+
+        posicaoPlayer = transform.position;
     }
 
     private void OnCollisionEnter(Collision other) 
@@ -136,6 +139,31 @@ public class PlayerMove : MonoBehaviour
     {
         rb.AddForce(transform.up * forcaPulo, ForceMode.Impulse);
         audioP.PlayOneShot(pulo);
+    }
+
+    public Vector3 GetPosicaoPlayer()
+    {
+        return posicaoPlayer;
+    }
+
+    public int GetPontos()
+    {
+        return pontos;
+    }
+
+    public int GetCenaAtual()
+    {
+        return diretor.GetCenaAtual();
+    }
+
+    public void SetPosicaoPlayer(Vector3 posicao)
+    {
+        posicaoPlayer = posicao;
+    }
+
+    public void SetPontos(int pontos)
+    {
+        this.pontos = pontos;
     }
 }
 

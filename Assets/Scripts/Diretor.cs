@@ -135,4 +135,24 @@ public class Diretor : MonoBehaviour
         status.sprite = zero;
         pontosRestantes.text = moedas.Length.ToString();
     }
+
+    public int GetCenaAtual()
+    {
+        return cenaAtual;
+    }
+
+    public void SavePlayer(PlayerMove player)
+    {
+        SaveSystem.Save(player);
+    }
+
+    public void LoadPlayer()
+    {
+        GameData data = SaveSystem.Load();
+
+        SceneManager.LoadScene(data.cenaAtualPlayer);
+
+        player.SetPontos(data.pontosPlayer);
+        player.SetPosicaoPlayer(new Vector3(data.position[0], data.position[1], data.position[2]));
+    }
 }
